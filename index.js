@@ -1,5 +1,6 @@
 require('dotenv').config();
 const dgram = require('dgram');
+const replaceMacWithName = require('./lib/replaceMacWithName');
 const server = dgram.createSocket('udp4');
 
 
@@ -12,7 +13,10 @@ server.on('message', (log = new Buffer("")) => {
     log = log.toString();
     if (/associated/.test(log) || /deauthenticated/.test(log) || /disassociated/.test(log)) {
         let [, msg] = log.split("wlan0: ") || [];
-        if (msg) console.log(msg);
+        if (msg) {
+            msg = replaceMacWithName(msg);
+            console.log(msg);
+        }
     }
 });
 
