@@ -10,8 +10,8 @@ server.on('error', (err) => {
 
 server.on('message', (log = new Buffer("")) => {
     log = log.toString();
-    if (/associated/.test(log) || /authenticated/.test(log) || /deauthenticated/.test(log) || /disassociated/.test(log)) {
-        const [, msg] = log.split("wlan0: ") || [];
+    if (/associated/.test(log) || /deauthenticated/.test(log) || /disassociated/.test(log)) {
+        let [, msg] = log.split("wlan0: ") || [];
         if (msg) console.log(msg);
     }
 });
